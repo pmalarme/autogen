@@ -1,0 +1,70 @@
+openapi: 3.0.1
+info:
+  title: TheCodeBuzz-Service
+  version: v1
+paths:
+  /weather:
+    get:
+      tags:
+        - WeatherForecast
+      parameters:
+        - in: query
+          name: longitude
+          required: true
+          schema:
+            type: number
+          description: The longitude for which you need the forecast
+        - in: query
+          name: latitude
+          required: true
+          schema:
+            type: number
+          description: The longitude for which you need the forecast
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WeatherForecast'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WeatherForecast'
+components:
+  schemas:
+    WeatherForecast:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          description: Date time in ISO 8601 format
+        temperatureF:
+          type: number
+        summary:
+          type: string
+          nullable: true
+        longitude:
+          type: number
+          nullable: false
+        latitude:
+          type: number
+          nullable: false
+        countryISO:
+          type: string
+          nullable: false
+      additionalProperties: false
+  securitySchemes:
+    bearerAuth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://login.mydomain.com/oauth2/v2.0/authorize
+          scopes: {}
+      description: JWT Authorization header using the Bearer scheme
+security:
+  - bearerAuth: []
