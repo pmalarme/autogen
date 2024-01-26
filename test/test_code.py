@@ -13,8 +13,8 @@ from autogen.code_utils import (
     content_str,
     execute_code,
     extract_code,
-    improve_code,
-    improve_function,
+    # improve_code,
+    # improve_function,
     infer_lang,
     is_docker_running,
     in_docker_container,
@@ -479,35 +479,35 @@ def test_can_use_docker_or_throw():
             check_can_use_docker_or_throw(True)
 
 
-def _test_improve():
-    try:
-        import openai
-    except ImportError:
-        return
-    config_list = autogen.config_list_openai_aoai(KEY_LOC)
-    improved, _ = improve_function(
-        "autogen/math_utils.py",
-        "solve_problem",
-        "Solve math problems accurately, by avoiding calculation errors and reduce reasoning errors.",
-        config_list=config_list,
-    )
-    with open(f"{here}/math_utils.py.improved", "w") as f:
-        f.write(improved)
-    suggestion, _ = improve_code(
-        ["autogen/code_utils.py", "autogen/math_utils.py"],
-        "leverage generative AI smartly and cost-effectively",
-        config_list=config_list,
-    )
-    print(suggestion)
-    improvement, cost = improve_code(
-        ["autogen/code_utils.py", "autogen/math_utils.py"],
-        "leverage generative AI smartly and cost-effectively",
-        suggest_only=False,
-        config_list=config_list,
-    )
-    print(cost)
-    with open(f"{here}/suggested_improvement.txt", "w") as f:
-        f.write(improvement)
+# def _test_improve():
+#     try:
+#         import openai
+#     except ImportError:
+#         return
+#     config_list = autogen.config_list_openai_aoai(KEY_LOC)
+#     improved, _ = improve_function(
+#         "autogen/math_utils.py",
+#         "solve_problem",
+#         "Solve math problems accurately, by avoiding calculation errors and reduce reasoning errors.",
+#         config_list=config_list,
+#     )
+#     with open(f"{here}/math_utils.py.improved", "w") as f:
+#         f.write(improved)
+#     suggestion, _ = improve_code(
+#         ["autogen/code_utils.py", "autogen/math_utils.py"],
+#         "leverage generative AI smartly and cost-effectively",
+#         config_list=config_list,
+#     )
+#     print(suggestion)
+#     improvement, cost = improve_code(
+#         ["autogen/code_utils.py", "autogen/math_utils.py"],
+#         "leverage generative AI smartly and cost-effectively",
+#         suggest_only=False,
+#         config_list=config_list,
+#     )
+#     print(cost)
+#     with open(f"{here}/suggested_improvement.txt", "w") as f:
+#         f.write(improvement)
 
 
 class TestContentStr(unittest.TestCase):
