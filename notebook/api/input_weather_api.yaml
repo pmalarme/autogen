@@ -1,0 +1,76 @@
+openapi: 3.0.1
+info:
+  title: TheCodeBuzz-Service
+  version: v1
+paths:
+  /weather/{country}/{post_code}/{city}:
+    get:
+      tags:
+        - WeatherForecast
+      parameters:
+        - in: path
+          name: country
+          required: true
+          schema:
+            type: string
+          description: The country in which the city is
+        - in: path
+          name: post_code
+          required: true
+          schema:
+            type: integer
+          description: The post-code of the city
+        - in: path
+          name: city
+          required: true
+          schema:
+            type: string
+          description: The city for which the forecast is needed
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WeatherForecast'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WeatherForecast'
+components:
+  schemas:
+    WeatherForecast:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          description: Date-time in ANSI INCITS 30-1997 format
+        temperatureC:
+          type: integer
+          format: int32
+        summary:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: false
+        post_code:
+          type: integer
+          nullable: false
+        country:
+          type: string
+          nullable: false
+          description: The full name of the country
+      additionalProperties: false
+  securitySchemes:
+    bearerAuth:
+      type: http
+      description: JWT Authorization header using the Bearer scheme
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
